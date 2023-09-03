@@ -20,8 +20,8 @@ const tabStates = reactive<ActiveTab>({
 });
 
 const router = useRouter();
+const { signIn } = useAuth();
 
-console.log(router);
 function setActiveTab(tab: "phone" | "email") {
   tabStates.activeTab = tab;
   tabStates.isEmailTab = tab === "email";
@@ -37,8 +37,8 @@ function tempAuth() {
 <template>
   <main class="flex min-h-screen flex-1 flex-col gap-6 bg-slate-50">
     <div class="py-4 text-center">
-      <RouterLink to="/" class="text-3xl font-semibold tracking-wider"
-        >Loket</RouterLink
+      <NuxtLink to="/" class="text-3xl font-semibold tracking-wider"
+        >Loket</NuxtLink
       >
     </div>
     <div class="flex flex-1 justify-evenly gap-4">
@@ -62,10 +62,10 @@ function tempAuth() {
           <h5 class="text-xl font-semibold">Sign in to your account</h5>
           <span class="text-sm"
             >Don't have an account?
-            <RouterLink to="/register"
+            <NuxtLink to="/register"
               ><span class="font-semibold text-blue-800"
                 >Register</span
-              ></RouterLink
+              ></NuxtLink
             ></span
           >
         </div>
@@ -80,17 +80,19 @@ function tempAuth() {
         >
           <div class="flex items-center justify-center">
             <button
+              disabled
               type="button"
               @click="setActiveTab('phone')"
-              class="w-3/6 border-b-2 pb-2 text-center font-medium transition duration-200"
+              class="w-3/6 border-b-2 pb-2 text-center font-medium transition duration-200 disabled:opacity-50"
               :class="{ 'border-b-blue-900': tabStates.isPhoneTab }"
             >
               Phone Number
             </button>
             <button
+              disabled
               type="button"
               @click="setActiveTab('email')"
-              class="w-3/6 border-b-2 pb-2 text-center font-medium transition duration-200"
+              class="w-3/6 border-b-2 pb-2 text-center font-medium transition duration-200 disabled:opacity-50"
               :class="{ 'border-b-blue-900': tabStates.isEmailTab }"
             >
               Email
@@ -124,23 +126,28 @@ function tempAuth() {
             </div>
           </div>
           <button
+            disabled
             type="submit"
-            class="w-full rounded-lg bg-blue-800 p-2 font-medium text-white"
+            class="w-full rounded-lg bg-blue-800 p-2 font-medium text-white disabled:opacity-50"
           >
             Sign in
           </button>
         </form>
         <div class="flex items-center gap-4">
-          <button
-            class="w-40 rounded-lg bg-blue-900 p-2 text-sm font-medium text-white"
+          <Button
+            disabled
+            variant="defaultOutline"
+            class="w-40 bg-blue-800 text-sm font-medium"
           >
             Facebook
-          </button>
-          <button
-            class="w-40 rounded-lg border bg-white p-2 text-sm font-medium"
+          </Button>
+          <Button
+            variant="defaultOutline"
+            @click="signIn('google')"
+            class="w-40 bg-white text-sm font-medium"
           >
             Google
-          </button>
+          </Button>
         </div>
       </div>
     </div>
