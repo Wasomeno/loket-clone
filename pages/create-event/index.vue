@@ -31,8 +31,6 @@ async function createEvent() {
     category_id: eventDetails.category?.id,
     ticketTypes: eventDetails.ticket_types,
   });
-
-  console.log(data);
 }
 </script>
 
