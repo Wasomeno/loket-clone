@@ -72,7 +72,7 @@ const emits = defineEmits<{
       </div>
       <div v-if="activeTab === 'creator'" class="flex flex-1 flex-col">
         <NuxtLink
-          to="#"
+          to="/dashboard"
           class="rounded-lg px-4 py-2 transition duration-200 hover:bg-slate-100"
         >
           <span class="text-sm">Dashboard</span>
