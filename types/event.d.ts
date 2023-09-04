@@ -1,5 +1,6 @@
 export type EventType = {
   id?: number;
+  banner_image?: string;
   title?: string;
   place?: string;
   description?: string;
