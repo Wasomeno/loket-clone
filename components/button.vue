@@ -3,7 +3,9 @@ import { cn } from "~/lib/utils";
 import { cva } from "class-variance-authority";
 
 const props = withDefaults(
-  defineProps<{ variant: "default" | "defaultOutline" }>(),
+  defineProps<{
+    variant: "default" | "defaultOutline";
+  }>(),
   {
     variant: "default",
   },
@@ -15,9 +17,9 @@ const buttonVariants = computed(() => {
     {
       variants: {
         intent: {
-          default: "bg-slate-50 hover:bg-slate-100",
+          default: "bg-blue-800 text-white hover:bg-blue-700",
           defaultOutline:
-            "bg-slate-50 hover:bg-slate-100 border border-slate-300",
+            "bg-blue-800 hover:bg-blue-700 border text-white border-blue-600",
         },
       },
     },
