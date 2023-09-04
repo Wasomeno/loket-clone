@@ -5,11 +5,18 @@ import { EventType } from "~/types/event";
 type ActiveTab = "description" | "ticket";
 
 const route = useRoute();
+
+const eventDetailsCache = useNuxtData(`/event/${route.params.eventId}`);
+
 const { data: eventDetails } = await useFetch<EventType>(
   `${EVENT_API_MAIN}/events/${route.params.eventId}`,
+  {
+    key: `/event/${route.params.eventId}`,
+    immediate: eventDetailsCache.data.value === null,
+  },
 );
 
-useHead({ title: `${eventDetails.value?.title} | Event` });
+useHead({ title: `${eventDetailsCache.data.value?.title} | Event` });
 
 const activeTab = ref<ActiveTab>("description");
 </script>
@@ -29,29 +36,35 @@ const activeTab = ref<ActiveTab>("description");
         >
           <div>
             <h1 class="mb-4 text-xl font-semibold">
-              {{ eventDetails?.title }}
+              {{ eventDetailsCache?.data.value.title }}
             </h1>
             <div class="flex flex-col gap-2">
               <span>{{
-                new Date(eventDetails?.date_time_start).toDateString()
+                new Date(
+                  eventDetailsCache?.data.value.date_time_start,
+                ).toDateString()
               }}</span>
-              <span>{{
-                `${new Date(
-                  eventDetails?.date_time_start,
-                ).toLocaleTimeString()} - ${new Date(
-                  eventDetails?.date_time_end,
-                ).toLocaleTimeString()}`
-              }}</span>
-              <span>{{ eventDetails?.place }}</span>
+              <span
+                >{{
+                  `${new Date(
+                    eventDetailsCache?.data.value.date_time_start,
+                  ).toLocaleTimeString()} - ${new Date(
+                    eventDetailsCache?.data.value.date_time_end,
+                  ).toLocaleTimeString()}`
+                }}
+              </span>
+              <span>{{ eventDetailsCache?.data.value.place }}</span>
             </div>
           </div>
-          <RouterLink :to="`/creator/${eventDetails?.creator_id}`">
+          <RouterLink
+            :to="`/creator/${eventDetailsCache?.data.value.creator_id}`"
+          >
             <div
               class="flex items-center gap-4 border-t border-dashed border-slate-300 py-4"
             >
               <div class="h-9 w-9 rounded-full bg-blue-300" />
               <span class="text-sm font-medium">{{
-                eventDetails?.creator.name
+                eventDetailsCache?.data.value.creator.name
               }}</span>
             </div>
           </RouterLink>
@@ -77,7 +90,7 @@ const activeTab = ref<ActiveTab>("description");
           </div>
           <div class="py-6" v-if="activeTab === 'description'">
             <p class="mb-6 leading-7">
-              {{ eventDetails?.description }}
+              {{ eventDetailsCache?.data.value.description }}
             </p>
             <div class="space-y-2">
               <h4 class="border-l-4 border-l-blue-800 pl-2 text-lg font-medium">
@@ -91,7 +104,8 @@ const activeTab = ref<ActiveTab>("description");
             <h4 class="mb-6">Price starts from Rp 500.000</h4>
             <div class="flex w-full flex-col gap-4">
               <BuyTicketCard
-                v-for="eventTicketDetails in eventDetails?.ticket_types"
+                v-for="eventTicketDetails in eventDetailsCache?.data.value
+                  .ticket_types"
                 :ticket-details="eventTicketDetails"
               />
             </div>
