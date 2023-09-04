@@ -159,6 +159,7 @@ async function createEvent() {
         </div>
         <div v-else class="px-6 py-4">
           <textarea
+            v-model="eventDetails.description"
             class="h-72 w-full rounded-lg border bg-slate-50 px-4 py-2 text-sm"
           />
         </div>
