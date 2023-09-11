@@ -8,10 +8,10 @@ export type EventType = {
   creator_id?: number;
   category_id?: number;
   region_id?: number;
-  date_time_start?: Date;
-  date_time_end?: Date;
+  date_time_start?: string | Date;
+  date_time_end?: string | Date;
   category?: Pick<EventCategory, "id" | "name">;
-  creator?: string;
+  creator?: EventCreator;
   region?: string;
   ticket_types: EventTicketDetails[];
 };
@@ -32,8 +32,8 @@ export type EventTicketDetails = {
   price?: number;
   description?: string;
   event_id?: number;
-  sale_end?: Date;
-  sale_start?: Date;
+  sale_end?: string | Date;
+  sale_start?: string | Date;
   event?: EventType;
 };
 
