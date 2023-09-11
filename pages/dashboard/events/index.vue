@@ -40,27 +40,21 @@ console.log(events.value);
                 <span class="text-sm font-medium">{{ event.title }}</span>
                 <div class="flex items-center gap-3 text-sm">
                   <CIcon :icon="cilCalendar" class="h-4 w-4" />
-                  {{ new Date(event.date_time_start).toDateString() }}
+                  {{ new Date(event.date_time_start as string).toDateString() }}
                 </div>
                 <div class="flex items-center gap-3 text-sm">
                   <CIcon :icon="cilClock" class="h-4 w-4" />
-                  {{ new Date(event.date_time_start).toLocaleTimeString() }}
+                  {{
+                    new Date(
+                      event.date_time_start as string,
+                    ).toLocaleTimeString()
+                  }}
                 </div>
               </div>
             </div>
           </div>
         </NuxtLink>
       </div>
-      <!-- <div
-        class="flex h-[700px] flex-1 flex-col items-center justify-center gap-2 rounded-lg border bg-white p-4"
-      >
-        <div>
-          <span class="opacity-50">No active events</span>
-          <NuxtLink to="/create-event">
-            <Button class="text-xs text-white"> Create Here </Button>
-          </NuxtLink>
-        </div>
-      </div> -->
     </div>
   </NuxtLayout>
 </template>
