@@ -13,7 +13,7 @@ const props = withDefaults(
 
 const buttonVariants = computed(() => {
   return cva(
-    "flex items-center duration-200 transition disabled:opacity-50 justify-center rounded-lg py-2 px-4",
+    "flex items-center duration-200 lg:text-sm text-xs transition disabled:opacity-50 justify-center rounded-lg py-2 px-4",
     {
       variants: {
         intent: {
