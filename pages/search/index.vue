@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cilX } from "@coreui/icons";
 import CIcon from "@coreui/icons-vue";
-import { EVENT_API_LOCAL } from "~/lib/utils";
+import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventCreator, EventType } from "~/types/event";
 
 const { query } = useRoute();
@@ -9,7 +9,7 @@ const searchResults = useFetch<{
   events: EventType[];
   regions: any[];
   eventCreators: EventCreator[];
-}>(`${EVENT_API_LOCAL}/search/${query.q}`);
+}>(`${EVENT_API_MAIN}/search/${query.q}`);
 
 const events = searchResults.data.value?.events;
 const regions = searchResults.data.value?.regions;

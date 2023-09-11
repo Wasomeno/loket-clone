@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EVENT_API_LOCAL, sortMap, timeMap } from "~/lib/utils";
+import { EVENT_API_MAIN, sortMap, timeMap } from "~/lib/utils";
 import { EventType } from "~/types/event";
 
 useHead({ title: "Discover Events | Loket" });
@@ -18,7 +18,7 @@ const {
   pending,
   data: events,
   refresh,
-} = await useFetch<EventType[]>(() => `${EVENT_API_LOCAL}/events`, {
+} = await useFetch<EventType[]>(() => `${EVENT_API_MAIN}/events`, {
   query: {
     categoryId: categoryFilter,
     time: timeFilterDate,

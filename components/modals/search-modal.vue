@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cilFlagAlt, cilX, cilZoom } from "@coreui/icons";
 import CIcon from "@coreui/icons-vue";
-import { EVENT_API_LOCAL } from "~/lib/utils";
+import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventCreator, EventType } from "~/types/event";
 
 type SearchResults = {
@@ -15,7 +15,7 @@ const emits = defineEmits<{
 
 const searchQuery = ref("");
 const searchResults = await useFetch<SearchResults>(
-  () => `${EVENT_API_LOCAL}/search/${searchQuery.value}`,
+  () => `${EVENT_API_MAIN}/search/${searchQuery.value}`,
   {
     watch: [searchQuery],
     immediate: searchQuery.value !== "",
