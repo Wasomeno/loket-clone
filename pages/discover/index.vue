@@ -62,7 +62,7 @@ onBeforeRouteUpdate(({ query }) => {
             <span>No active events</span>
           </div>
           <NuxtLink
-            v-if="!pending && (events?.length as number) > 0"
+            v-else-if="!pending && (events?.length as number) > 0"
             v-for="event in events"
             :to="`/event/${event.id}`"
             class="col-span-4 lg:col-span-1"
@@ -93,7 +93,7 @@ onBeforeRouteUpdate(({ query }) => {
             </div>
           </NuxtLink>
           <div
-            v-if="pending"
+            v-else
             v-for="event in 3"
             class="col-span-4 overflow-hidden rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:col-span-1"
           >
