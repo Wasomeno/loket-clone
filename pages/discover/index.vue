@@ -26,13 +26,13 @@ const {
   },
 });
 
-onBeforeRouteUpdate(({ query }) => {
-  activeSortKey.value = query.sort;
-  activeSort.value = sortMap.get(query.sort as string)?.value;
-  categoryFilter.value = query.categoryId;
-  timeFilterKey.value = query.time;
+watchEffect(() => {
+  activeSortKey.value = route.query.sort;
+  activeSort.value = sortMap.get(route.query.sort as string)?.value;
+  categoryFilter.value = route.query.categoryId;
+  timeFilterKey.value = route.query.time;
   timeFilterDate.value = timeMap
-    .get(query.time as string)
+    .get(route.query.time as string)
     ?.value.toDateString();
 });
 </script>
