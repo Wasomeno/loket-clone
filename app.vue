@@ -3,5 +3,6 @@
 <template>
   <div>
     <NuxtPage />
+    <div id="modal-container" />
   </div>
 </template>
