@@ -23,28 +23,29 @@ const activeTab = ref<ActiveTab>("description");
 
 <template>
   <NuxtLayout>
-    <main class="flex min-h-screen flex-col items-center gap-6 bg-slate-50">
-      <div class="mt-6 w-5/6">
-        <span class="text-sm"> Home </span>
-      </div>
-      <div class="flex w-5/6 items-center gap-6">
+    <main
+      class="flex min-h-screen flex-col items-center gap-4 bg-slate-50 py-4 lg:gap-6 lg:py-6"
+    >
+      <div
+        class="flex w-11/12 flex-col items-center gap-4 lg:w-5/6 lg:flex-row lg:gap-6"
+      >
         <div
-          class="h-80 w-full rounded-xl bg-blue-300 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+          class="h-40 w-full rounded-xl bg-blue-300 shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:h-80"
         />
         <div
-          class="flex h-80 w-96 flex-col justify-between rounded-xl px-6 pt-6 shadow-md"
+          class="flex w-full flex-col justify-between rounded-xl shadow-none lg:h-80 lg:w-96 lg:px-6 lg:pt-6 lg:shadow-md"
         >
-          <div>
-            <h1 class="mb-4 text-xl font-semibold">
+          <div class="py-2">
+            <h1 class="mb-2 text-base font-semibold lg:mb-4 lg:text-xl">
               {{ eventDetailsCache?.data.value.title }}
             </h1>
             <div class="flex flex-col gap-2">
-              <span>{{
+              <span class="text-sm lg:text-base">{{
                 new Date(
                   eventDetailsCache?.data.value.date_time_start,
                 ).toDateString()
               }}</span>
-              <span
+              <span class="text-sm lg:text-base"
                 >{{
                   `${new Date(
                     eventDetailsCache?.data.value.date_time_start,
@@ -53,7 +54,9 @@ const activeTab = ref<ActiveTab>("description");
                   ).toLocaleTimeString()}`
                 }}
               </span>
-              <span>{{ eventDetailsCache?.data.value.place }}</span>
+              <span class="text-sm lg:text-base">{{
+                eventDetailsCache?.data.value.place
+              }}</span>
             </div>
           </div>
           <RouterLink
@@ -70,19 +73,21 @@ const activeTab = ref<ActiveTab>("description");
           </RouterLink>
         </div>
       </div>
-      <div class="flex w-5/6 items-start justify-center gap-6">
+      <div
+        class="flex w-11/12 flex-col items-center justify-center lg:w-5/6 lg:flex-row lg:items-start lg:gap-6"
+      >
         <div class="w-full">
           <div class="flex items-start">
             <button
               @click="activeTab = 'description'"
-              class="w-3/6 border-b-2 pb-2 text-center font-medium transition duration-200"
+              class="w-3/6 border-b-2 pb-2 text-center text-sm font-medium transition duration-200 lg:text-base"
               :class="{ 'border-b-blue-900': activeTab === 'description' }"
             >
               Description
             </button>
             <button
               @click="activeTab = 'ticket'"
-              class="w-3/6 border-b-2 pb-2 text-center font-medium transition duration-200"
+              class="w-3/6 border-b-2 pb-2 text-center text-sm font-medium transition duration-200 lg:text-base"
               :class="{ 'border-b-blue-900': activeTab === 'ticket' }"
             >
               Ticket
@@ -93,15 +98,21 @@ const activeTab = ref<ActiveTab>("description");
               {{ eventDetailsCache?.data.value.description }}
             </p>
             <div class="space-y-2">
-              <h4 class="border-l-4 border-l-blue-800 pl-2 text-lg font-medium">
+              <h4
+                class="border-l-4 border-l-blue-800 pl-2 text-sm font-medium lg:text-lg"
+              >
                 Terms of Services
               </h4>
               <p></p>
             </div>
           </div>
           <div class="py-6" v-else>
-            <h3 class="mb-2 text-lg font-semibold">Online Tickets</h3>
-            <h4 class="mb-6">Price starts from Rp 500.000</h4>
+            <h3 class="mb-2 text-sm font-semibold lg:text-lg">
+              Online Tickets
+            </h3>
+            <h4 class="mb-6 text-xs lg:text-base">
+              Price starts from Rp 500.000
+            </h4>
             <div class="flex w-full flex-col gap-4">
               <BuyTicketCard
                 v-for="eventTicketDetails in eventDetailsCache?.data.value
@@ -111,7 +122,9 @@ const activeTab = ref<ActiveTab>("description");
             </div>
           </div>
         </div>
-        <div class="flex h-20 w-96 items-center rounded-xl p-6 shadow-md">
+        <div
+          class="sticky bottom-0 flex h-20 w-96 items-center rounded-xl border-t bg-white p-6 shadow-md lg:border-none"
+        >
           <button
             class="w-full rounded-lg bg-blue-800 p-2 font-medium text-white"
           >
