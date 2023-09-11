@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="flex w-60 flex-col gap-4 border-r px-6 py-4">
+  <div class="hidden w-60 flex-col gap-4 border-r px-6 py-4 lg:flex">
     <div class="flex flex-col gap-2">
       <div class="border-b border-gray-300 py-1.5">
         <span class="mb-2 text-sm font-medium opacity-40">Main</span>
