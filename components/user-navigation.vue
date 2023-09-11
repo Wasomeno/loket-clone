@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { cilCompass } from "@coreui/icons";
+import { cilCompass, cilZoom } from "@coreui/icons";
 import { CIcon } from "@coreui/icons-vue";
+import SearchModal from "./modals/search-modal.vue";
+import UserMobileDropdownMenu from "./user-mobile-dropdown-menu.vue";
 
+const isSearchModalOpen = ref(false);
 const isSearchInputActive = ref(false);
 const isShowUserMenu = ref(false);
 
@@ -10,11 +13,12 @@ const searchQuery = ref("");
 
 <template>
   <header
-    class="sticky top-0 z-10 flex items-center justify-between bg-blue-950 px-6 py-3 shadow-md"
+    class="sticky top-0 z-10 flex items-center justify-between bg-blue-950 px-4 py-3 shadow-md lg:px-6"
   >
-    <div class="flex w-2/6 items-center gap-10">
+    <div class="flex w-2/6 items-center gap-4 lg:gap-10">
       <NuxtLink to="/">
-        <span class="text-3xl font-semibold tracking-wider text-slate-50"
+        <span
+          class="text-lg font-semibold tracking-wider text-slate-50 lg:text-3xl"
           >Loket</span
         >
       </NuxtLink>
@@ -26,22 +30,28 @@ const searchQuery = ref("");
             isSearchInputActive = false;
           }
         "
+        class="hidden lg:block"
       >
         <input
           @click="isSearchInputActive = true"
           v-model="searchQuery"
           type="string"
-          class="text- w-96 rounded-lg border border-slate-300 px-4 py-2 text-sm"
+          class="w-40 rounded-lg border border-slate-300 px-4 py-2 text-xs lg:w-96 lg:text-sm"
           placeholder="Search for events"
         />
       </form>
     </div>
-    <div class="flex gap-10">
-      <div class="flex items-center gap-6">
+    <div class="flex items-center gap-2 lg:gap-10">
+      <button @click="isSearchModalOpen = true" class="inline-block lg:hidden">
+        <CIcon :icon="cilZoom" class="h-5 w-5 text-white" />
+      </button>
+      <div class="flex items-center">
         <NuxtLink to="/discover">
-          <div class="flex items-center gap-2">
+          <div class="hidden items-center gap-2 lg:flex">
             <CIcon :icon="cilCompass" class="h-5 w-5 text-white" />
-            <span class="text-sm font-medium text-white">Discover</span>
+            <span class="hidden text-sm font-medium text-white lg:inline"
+              >Discover</span
+            >
           </div>
         </NuxtLink>
       </div>
@@ -49,6 +59,11 @@ const searchQuery = ref("");
         :is-show-user-menu="isShowUserMenu"
         @hide-user-menu="isShowUserMenu = false"
         @show-user-menu="isShowUserMenu = true"
+      />
+      <UserMobileDropdownMenu />
+      <SearchModal
+        v-if="isSearchModalOpen"
+        @close-modal="isSearchModalOpen = false"
       />
     </div>
   </header>
