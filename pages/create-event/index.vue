@@ -19,9 +19,10 @@ const { data: userDetails } = useFetch<User>(
   `${EVENT_API_MAIN}/users/${session.value?.user?.email}`,
 );
 
+const isUserDetailsInvalid = userDetails === null;
+
 const isCategoryModalOpen = ref(false);
 const isDateTimeModalOpen = ref(false);
-const isPlaceModalOpen = ref(false);
 const isTicketModalOpen = ref(false);
 
 async function createEvent() {
@@ -32,14 +33,16 @@ async function createEvent() {
     ticketTypes: eventDetails.ticket_types,
   });
 }
+
+useHead({ title: "Create Event | Loket" });
 </script>
 
 <template>
-  <main
-    class="flex min-h-screen w-full flex-1 flex-col items-center justify-center bg-slate-100"
-  >
-    <div class="flex w-full flex-1 flex-col items-center justify-center py-10">
-      <div class="w-4/6 rounded-lg border bg-white p-6">
+  <main class="flex min-h-screen flex-1 flex-col bg-slate-100">
+    <div
+      class="flex w-full flex-1 flex-col items-center justify-center p-4 lg:py-8"
+    >
+      <div class="w-full rounded-lg border bg-white p-4 lg:w-4/6 lg:p-6">
         <div
           class="flex h-72 w-full items-center justify-center rounded-lg bg-blue-50"
         >
@@ -49,18 +52,18 @@ async function createEvent() {
           <input
             type="string"
             v-model="eventDetails.title"
-            class="bg-tranparent w-96 rounded-lg py-2 text-lg focus:outline-none"
+            class="bg-tranparent w-full rounded-lg py-2 text-base focus:outline-none lg:text-lg"
             placeholder="Event Name"
           />
           <button
             @click="isCategoryModalOpen = true"
-            class="w-72 rounded-lg border px-4 py-2 text-sm"
+            class="w-72 rounded-lg border px-4 py-2 text-xs lg:text-sm"
           >
             {{ eventDetails.category?.name ?? "Select Category" }}
           </button>
         </div>
-        <div class="flex w-full gap-x-10 px-2 py-4">
-          <div class="space-y-4">
+        <div class="flex w-full flex-col gap-4 px-2 py-4 lg:flex-row lg:gap-10">
+          <div class="space-y-2 lg:space-y-4">
             <h5 class="text-sm font-semibold">Event Creator</h5>
             <div class="flex items-center gap-4">
               <div class="h-10 w-10 rounded-full bg-blue-300" />
@@ -69,45 +72,55 @@ async function createEvent() {
               }}</span>
             </div>
           </div>
-          <div class="space-y-4">
-            <h5 class="text-sm font-semibold">Date & Time</h5>
-            <button
-              v-if="
-                !eventDetails.date_time_start || !eventDetails.date_time_end
-              "
-              @click="isDateTimeModalOpen = true"
-              class="rounded-lg border px-4 py-2 text-sm"
-            >
-              Select Date & Time
-            </button>
-            <div v-else class="space-y-2">
-              <div class="flex items-center gap-3">
-                <CIcon :icon="cilCalendar" class="h-5 w-5 opacity-40" />
-                <span>{{
-                  `${eventDetails?.date_time_start.toDateString()} - ${eventDetails.date_time_end.toDateString()}`
-                }}</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <CIcon :icon="cilClock" class="h-5 w-5 opacity-40" />
-                <span>{{
-                  `${eventDetails?.date_time_start.toLocaleTimeString()} - ${eventDetails.date_time_end.toLocaleTimeString()}`
-                }}</span>
+          <div class="flex gap-10">
+            <div class="space-y-2 lg:space-y-4">
+              <h5 class="text-sm font-semibold">Date & Time</h5>
+              <button
+                v-if="
+                  !eventDetails.date_time_start || !eventDetails.date_time_end
+                "
+                @click="isDateTimeModalOpen = true"
+                class="rounded-lg border px-4 py-2 text-xs lg:text-sm"
+              >
+                Select Date & Time
+              </button>
+              <div v-else class="space-y-2">
+                <div class="flex items-center gap-3">
+                  <CIcon :icon="cilCalendar" class="h-5 w-5 opacity-40" />
+                  <span>{{
+                    `${(
+                      eventDetails?.date_time_start as Date
+                    ).toDateString()} - ${(
+                      eventDetails.date_time_end as Date
+                    ).toDateString()}`
+                  }}</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <CIcon :icon="cilClock" class="h-5 w-5 opacity-40" />
+                  <span>{{
+                    `${(
+                      eventDetails?.date_time_start as Date
+                    ).toLocaleTimeString()} - ${(
+                      eventDetails.date_time_end as Date
+                    ).toLocaleTimeString()}`
+                  }}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="space-y-4">
-            <h5 class="text-sm font-semibold">Place</h5>
-            <button
-              disabled
-              class="rounded-lg border px-4 py-2 text-sm opacity-50"
-            >
-              Default Place
-            </button>
+            <div class="space-y-2 lg:space-y-4">
+              <h5 class="text-sm font-semibold">Place</h5>
+              <button
+                disabled
+                class="rounded-lg border px-4 py-2 text-xs opacity-50 lg:text-sm"
+              >
+                Default Place
+              </button>
+            </div>
           </div>
         </div>
       </div>
       <div
-        class="mt-4 flex w-4/6 flex-col gap-2 rounded-lg border bg-white py-4"
+        class="mt-4 flex w-full flex-col gap-2 rounded-lg border bg-white py-4 lg:w-4/6"
       >
         <div class="flex items-center px-6">
           <button
@@ -131,7 +144,7 @@ async function createEvent() {
           >
             <span
               v-if="eventDetails.ticket_types.length < 1"
-              class="text-sm font-medium opacity-50"
+              class="text-xs font-medium opacity-50 lg:text-sm"
               >No created tickets</span
             >
             <div v-else v-for="ticket in eventDetails.ticket_types">
@@ -142,7 +155,9 @@ async function createEvent() {
                   <h5 class="font-medium">{{ ticket.name }}</h5>
                   <p class="text-sm">{{ ticket.description }}</p>
                   <span class="text-sm">{{
-                    `${ticket.sale_start?.toDateString()} - ${ticket.sale_end?.toDateString()}`
+                    `${(ticket.sale_start as Date).toDateString()} - ${(
+                      ticket.sale_end as Date
+                    ).toDateString()}`
                   }}</span>
                 </div>
               </div>
@@ -154,7 +169,7 @@ async function createEvent() {
             class="mt-4 space-x-2 border-blue-200 bg-blue-500 text-white hover:bg-blue-400"
           >
             <CIcon :icon="cilPlus" class="h-4 w-4" />
-            <span class="text-sm">Create Ticket</span>
+            <span class="text-xs lg:text-sm">Create Ticket</span>
           </Button>
         </div>
         <div v-else class="px-6 py-4">
@@ -166,19 +181,21 @@ async function createEvent() {
       </div>
     </div>
     <div
-      class="sticky bottom-0 flex h-14 w-full items-center justify-between border-t border-t-slate-300 bg-white"
+      class="sticky bottom-0 z-20 flex h-14 w-full items-center justify-between border-t border-t-slate-300 bg-white p-4"
     >
-      <div class="w-1/6 text-center">
+      <div class="hidden text-center lg:block">
         <p class="text-sm">Create or save it to draft</p>
       </div>
-      <div class="flex w-1/6 gap-4">
-        <button class="rounded-lg border bg-slate-50 px-4 py-2 text-sm">
+      <div class="flex flex-1 gap-4 lg:w-auto lg:flex-none">
+        <button
+          class="flex-1 rounded-lg border bg-slate-50 px-4 py-2 text-sm lg:flex-none"
+        >
           Save to Draft
         </button>
         <Button
           variant="defaultOutline"
           @click="createEvent"
-          class="border-blue-200 bg-blue-300 text-sm"
+          class="flex-1 border-blue-200 bg-blue-300 text-sm lg:flex-none"
         >
           Create
         </Button>
@@ -215,6 +232,9 @@ async function createEvent() {
             newTicket,
           ])
       "
+    />
+    <UserDetailsNotCreated
+      v-if="isUserDetailsInvalid && !$route.path.includes('/dashboard')"
     />
   </main>
 </template>
