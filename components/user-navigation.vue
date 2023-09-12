@@ -5,8 +5,7 @@ import SearchModal from "./modals/search-modal.vue";
 import UserMobileDropdownMenu from "./user-mobile-dropdown-menu.vue";
 
 const isSearchModalOpen = ref(false);
-const isSearchInputActive = ref(false);
-const isShowUserMenu = ref(false);
+const isScreenOpen = ref(false);
 
 const searchQuery = ref("");
 </script>
@@ -27,13 +26,13 @@ const searchQuery = ref("");
           (event) => {
             event.preventDefault();
             $router.push('/search?q=' + searchQuery);
-            isSearchInputActive = false;
+            isScreenOpen = false;
           }
         "
         class="hidden lg:block"
       >
         <input
-          @click="isSearchInputActive = true"
+          @click="isScreenOpen = true"
           v-model="searchQuery"
           type="string"
           class="w-40 rounded-lg border border-slate-300 px-4 py-2 text-xs lg:w-96 lg:text-sm"
@@ -56,9 +55,7 @@ const searchQuery = ref("");
         </NuxtLink>
       </div>
       <UserDropdownMenu
-        :is-show-user-menu="isShowUserMenu"
-        @hide-user-menu="isShowUserMenu = false"
-        @show-user-menu="isShowUserMenu = true"
+        @set-open-screen="(isOpen) => (isScreenOpen = isOpen)"
       />
       <UserMobileDropdownMenu />
       <SearchModal
@@ -68,8 +65,8 @@ const searchQuery = ref("");
     </div>
   </header>
   <div
-    v-if="isSearchInputActive || isShowUserMenu"
-    @click="isSearchInputActive = false"
+    v-if="isScreenOpen"
+    @click="isScreenOpen = false"
     class="fixed left-0 top-0 h-screen w-screen bg-neutral-900 opacity-75 transition duration-200"
   />
 </template>
