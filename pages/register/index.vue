@@ -1,23 +1,7 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+type ActiveTab = "phone" | "email";
 
-type ActiveTab = {
-  activeTab: "phone" | "email";
-  isPhoneTab: boolean;
-  isEmailTab: boolean;
-};
-
-const tabStates = reactive<ActiveTab>({
-  activeTab: "email",
-  isPhoneTab: false,
-  isEmailTab: true,
-});
-
-function setActiveTab(tab: "phone" | "email") {
-  tabStates.activeTab = tab;
-  tabStates.isEmailTab = tab === "email";
-  tabStates.isPhoneTab = tab === "phone";
-}
+const activeTab = ref<ActiveTab>("phone");
 </script>
 
 <template>
@@ -66,23 +50,22 @@ function setActiveTab(tab: "phone" | "email") {
         >
           <div class="flex items-center justify-center">
             <button
-              :disabled="tabStates.isEmailTab"
-              @click="setActiveTab('phone')"
+              @click="activeTab = 'phone'"
               class="w-3/6 border-b-2 pb-2 text-center text-sm font-medium transition duration-200 disabled:opacity-50 lg:text-base"
-              :class="{ 'border-b-blue-900': tabStates.isPhoneTab }"
+              :class="{ 'border-b-blue-900': activeTab === 'phone' }"
             >
               Phone Number
             </button>
             <button
-              @click="setActiveTab('email')"
+              @click="activeTab = 'email'"
               class="w-3/6 border-b-2 pb-2 text-center text-sm font-medium transition duration-200 lg:text-base"
-              :class="{ 'border-b-blue-900': tabStates.isEmailTab }"
+              :class="{ 'border-b-blue-900': activeTab === 'email' }"
             >
               Email
             </button>
           </div>
           <div class="space-y-4 py-4">
-            <div class="space-y-2" v-if="tabStates.activeTab === 'phone'">
+            <div class="space-y-2" v-if="activeTab === 'phone'">
               <label class="text-sm font-medium opacity-50">
                 Phone Number
               </label>

@@ -1,32 +1,19 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 
-type ActiveTab = {
-  activeTab: "phone" | "email";
-  isPhoneTab: boolean;
-  isEmailTab: boolean;
-};
+type ActiveTab = "phone" | "email";
 
 type SignInData = {
   email: string;
   password: string;
 };
 
+const activeTab = ref<ActiveTab>("phone");
+
 const signInInputStates = reactive<SignInData>({ email: "", password: "" });
-const tabStates = reactive<ActiveTab>({
-  activeTab: "phone",
-  isPhoneTab: true,
-  isEmailTab: false,
-});
 
 const router = useRouter();
 const { signIn } = useAuth();
-
-function setActiveTab(tab: "phone" | "email") {
-  tabStates.activeTab = tab;
-  tabStates.isEmailTab = tab === "email";
-  tabStates.isPhoneTab = tab === "phone";
-}
 
 function tempAuth() {
   localStorage.setItem("signInData", JSON.stringify(signInInputStates));
@@ -86,24 +73,24 @@ function tempAuth() {
             <button
               disabled
               type="button"
-              @click="setActiveTab('phone')"
+              @click="activeTab = 'phone'"
               class="w-3/6 border-b-2 pb-2 text-center text-sm font-medium transition duration-200 disabled:opacity-50 lg:text-base"
-              :class="{ 'border-b-blue-900': tabStates.isPhoneTab }"
+              :class="{ 'border-b-blue-900': activeTab === 'phone' }"
             >
               Phone Number
             </button>
             <button
               disabled
               type="button"
-              @click="setActiveTab('email')"
+              @click="activeTab = 'email'"
               class="w-3/6 border-b-2 pb-2 text-center text-sm font-medium transition duration-200 disabled:opacity-50 lg:text-base"
-              :class="{ 'border-b-blue-900': tabStates.isEmailTab }"
+              :class="{ 'border-b-blue-900': activeTab === 'email' }"
             >
               Email
             </button>
           </div>
           <div class="space-y-4 py-4">
-            <div class="space-y-2" v-if="tabStates.activeTab === 'phone'">
+            <div class="space-y-2" v-if="activeTab === 'phone'">
               <label class="text-xs font-medium opacity-50 lg:text-sm">
                 Phone Number
               </label>
