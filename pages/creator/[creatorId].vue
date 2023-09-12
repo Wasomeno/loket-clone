@@ -1,20 +1,10 @@
 <script setup lang="ts">
 import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventCreator } from "~/types/event";
-import { reactive } from "vue";
 
-type ActiveTab = {
-  activeTab: "active" | "past";
-  isActiveTab: boolean;
-  isPastTab: boolean;
-};
+type ActiveTab = "active" | "past";
 
-const tabStates = reactive<ActiveTab>({
-  activeTab: "active",
-  isActiveTab: true,
-  isPastTab: false,
-});
-
+const activeTab = ref<ActiveTab>("active");
 const route = useRoute();
 
 const { data: eventCreatorDetails } = await useFetch<EventCreator>(
@@ -22,12 +12,6 @@ const { data: eventCreatorDetails } = await useFetch<EventCreator>(
 );
 
 useHead({ title: `${eventCreatorDetails.value?.name} | Event Creator` });
-
-function setActiveTab(tab: "active" | "past") {
-  tabStates.activeTab = tab;
-  tabStates.isActiveTab = tab === "active";
-  tabStates.isPastTab = tab === "past";
-}
 </script>
 
 <template>
@@ -44,22 +28,24 @@ function setActiveTab(tab: "active" | "past") {
         <div class="flex flex-col gap-6 bg-white px-6">
           <div class="flex items-center gap-6">
             <button
-              @click="setActiveTab('active')"
+              @click="activeTab = 'active'"
               class="p-3 text-sm lg:text-base"
-              :class="{ 'border-b-2 border-b-blue-800': tabStates.isActiveTab }"
+              :class="{
+                'border-b-2 border-b-blue-800': activeTab === 'active',
+              }"
             >
               Active Events
             </button>
             <button
-              @click="setActiveTab('past')"
+              @click="activeTab = 'past'"
               class="p-3 text-sm lg:text-base"
-              :class="{ 'border-b-2 border-b-blue-800': tabStates.isPastTab }"
+              :class="{ 'border-b-2 border-b-blue-800': activeTab === 'past' }"
             >
               Past Events
             </button>
           </div>
           <div
-            v-if="tabStates.isActiveTab"
+            v-if="activeTab === 'active'"
             class="grid grid-cols-4 gap-4 lg:gap-6"
           >
             <NuxtLink
@@ -102,6 +88,6 @@ function setActiveTab(tab: "active" | "past") {
           </div>
         </div>
       </div>
-    </main></NuxtLayout
-  >
+    </main>
+  </NuxtLayout>
 </template>
