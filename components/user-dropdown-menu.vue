@@ -4,25 +4,31 @@ import { CIcon } from "@coreui/icons-vue";
 
 type ActiveTab = "user" | "creator";
 
+const emits = defineEmits<{
+  "set-open-screen": [isOpen: boolean];
+}>();
+
+const isMenuOpen = ref(false);
 const activeTab = ref<ActiveTab>("user");
 const session = useAuth();
-
-const props = defineProps<{
-  isShowUserMenu: boolean;
-}>();
-
-const emits = defineEmits<{
-  "show-user-menu": [];
-  "hide-user-menu": [];
-}>();
 </script>
 
 <template>
   <div class="hidden lg:block">
     <div
       v-if="session.status.value === 'authenticated'"
-      @mouseenter="$emit('show-user-menu')"
-      @mouseleave="$emit('hide-user-menu')"
+      @mouseenter="
+        () => {
+          isMenuOpen = true;
+          $emit('set-open-screen', true);
+        }
+      "
+      @mouseleave="
+        () => {
+          isMenuOpen = false;
+          $emit('set-open-screen', false);
+        }
+      "
       class="relative hidden items-center lg:flex"
     >
       <div
@@ -35,7 +41,7 @@ const emits = defineEmits<{
         />
       </div>
       <div
-        v-if="isShowUserMenu"
+        v-if="isMenuOpen"
         class="absolute right-0 top-12 z-20 flex h-96 w-80 flex-1 flex-col rounded-xl bg-white px-6 py-2 shadow-md"
       >
         <div class="flex items-center gap-4 py-4">
