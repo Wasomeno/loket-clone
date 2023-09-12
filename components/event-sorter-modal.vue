@@ -32,6 +32,7 @@ const eventSorts = Array.from(sortMap, (item) => ({
       <div class="flex flex-col gap-2 px-4 py-2">
         <button
           v-for="sort in eventSorts"
+          :key="sort.key"
           @click="$emit('set-sort', sort.key)"
           class="rounded-md border py-2 text-xs transition duration-200"
           :class="{

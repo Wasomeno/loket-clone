@@ -23,7 +23,11 @@ const { data: events } = useFetch<EventType[]>(
       <div class="flex-1 space-y-4 px-6 py-4">
         <h1 class="text-base font-medium lg:text-xl">My Events</h1>
         <div class="grid grid-cols-1 lg:grid-cols-5">
-          <NuxtLink v-for="event in events" :to="`/my-events/${event.id}`">
+          <NuxtLink
+            v-for="event in events"
+            :key="event.id"
+            :to="`/my-events/${event.id}`"
+          >
             <div
               class="col-span-1 overflow-hidden rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
             >

@@ -63,6 +63,7 @@ const { data: categories } = await useFetch<EventCategory[]>(
           <div class="flex flex-col">
             <button
               v-for="category in categories"
+              :key="category.id"
               @click="
                 parseInt($route.query.categoryId as string) !== category.id
                   ? setFilter('categoryId', category.id.toString())
@@ -85,6 +86,7 @@ const { data: categories } = await useFetch<EventCategory[]>(
           <div class="flex flex-col">
             <button
               v-for="time in timeFilter"
+              :key="time.key"
               @click="
                 $route.query.time !== time.key
                   ? setFilter('time', time.key)

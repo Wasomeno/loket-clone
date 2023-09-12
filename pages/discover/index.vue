@@ -64,6 +64,7 @@ watchEffect(() => {
           <NuxtLink
             v-else-if="!pending && (events?.length as number) > 0"
             v-for="event in events"
+            :key="event.id"
             :to="`/event/${event.id}`"
             class="col-span-4 lg:col-span-1"
           >

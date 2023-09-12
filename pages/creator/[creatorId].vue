@@ -64,6 +64,7 @@ function setActiveTab(tab: "active" | "past") {
           >
             <NuxtLink
               v-for="event in eventCreatorDetails?.events_created"
+              :key="event.id"
               :to="`/event/${event.id}`"
               class="col-span-4 lg:col-span-1"
             >

@@ -29,6 +29,7 @@ const categories = toRaw(data);
       <button
         v-if="data !== null"
         v-for="category in categories"
+        :key="category.id"
         @click="
           $emit('updateCategory', { id: category.id, name: category.name })
         "

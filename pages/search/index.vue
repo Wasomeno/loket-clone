@@ -28,13 +28,20 @@ const isResultsExists =
           Event with the word "{{ $route.query.q }}"
         </h2>
         <div class="grid grid-cols-4 gap-x-6">
-          <EventItemCard v-for="event in events" :event-details="event" />
+          <EventItemCard
+            v-for="event in events"
+            :key="event.id"
+            :event-details="event"
+          />
         </div>
       </div>
       <div v-if="eventCreators?.length" class="mt-6 w-5/6 space-y-6">
         <h2 class="text-xl font-semibold">Event Creators</h2>
         <div class="grid grid-cols-6 gap-x-6">
-          <EventCreatorCard v-for="eventCreator in eventCreators" />
+          <EventCreatorCard
+            v-for="eventCreator in eventCreators"
+            :key="eventCreator.id"
+          />
         </div>
       </div>
       <div v-if="regions?.length" class="mt-6 w-5/6 space-y-6">
@@ -42,6 +49,7 @@ const isResultsExists =
         <div class="grid grid-cols-10 gap-x-6">
           <div
             v-for="region in regions"
+            :key="region.id"
             class="col-span-2 flex flex-col items-center gap-2"
           >
             <div class="h-36 w-full rounded-xl bg-blue-200" />

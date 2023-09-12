@@ -149,7 +149,11 @@ useHead({ title: "Create Event | Loket" });
               class="text-xs font-medium opacity-50 lg:text-sm"
               >No created tickets</span
             >
-            <div v-else v-for="ticket in eventDetails.ticket_types">
+            <div
+              v-else
+              v-for="ticket in eventDetails.ticket_types"
+              :key="ticket.id"
+            >
               <div
                 class="w-96 rounded-lg border bg-slate-50 px-4 py-2 shadow-sm"
               >

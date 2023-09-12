@@ -117,6 +117,7 @@ const activeTab = ref<ActiveTab>("description");
               <BuyTicketCard
                 v-for="eventTicketDetails in eventDetailsCache?.data.value
                   .ticket_types"
+                :key="eventDetails?.id"
                 :ticket-details="eventTicketDetails"
               />
             </div>

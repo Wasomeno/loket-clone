@@ -81,6 +81,7 @@ const searchResults = await useFetch<SearchResults>(
         <div class="flex flex-col gap-2">
           <NuxtLink
             v-for="event in searchResults.data.value?.events"
+            :key="event.id"
             :to="`/event/${event.id}`"
           >
             <div
@@ -102,6 +103,7 @@ const searchResults = await useFetch<SearchResults>(
         <div class="flex flex-col gap-2">
           <NuxtLink
             v-for="eventCreator in searchResults.data.value?.eventCreators"
+            :key="eventCreator.id"
             :to="`/creator/${eventCreator.id}`"
           >
             <div

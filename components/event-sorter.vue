@@ -58,6 +58,7 @@ onBeforeRouteUpdate(({ query }) => {
     >
       <button
         v-for="sort in eventSorts"
+        :key="sort.key"
         @click="setSort('sort', sort.key)"
         class="w-full border-b px-4 py-2 text-start text-sm transition duration-200 hover:bg-slate-100"
       >
