@@ -13,11 +13,11 @@ const dateTimeEnd = ref();
 
 <template>
   <Modal
-    class="flex h-4/6 w-2/6 flex-1 flex-col bg-white"
+    class="flex h-4/6 flex-1 flex-col bg-white lg:w-2/6"
     :close-modal="() => $emit('close-modal')"
   >
     <div class="flex items-center justify-between border-b px-6 py-4">
-      <h5>Set Date & Time</h5>
+      <h5 class="text-sm font-medium lg:text-base">Set Date & Time</h5>
       <button @click="$emit('close-modal')" class="h-5 w-5 font-medium">
         <CIcon :icon="cilX" />
       </button>
@@ -37,19 +37,21 @@ const dateTimeEnd = ref();
     >
       <div class="space-y-4">
         <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium"> Date & Time Start</label>
+          <label class="text-xs font-medium lg:text-sm">
+            Date & Time Start</label
+          >
           <input
             type="datetime-local"
+            class="rounded-lg border px-4 py-2 text-sm lg:text-base"
             v-model="dateTimeStart"
-            class="rounded-lg border px-4 py-2 text-sm"
           />
         </div>
         <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium"> Date & Time End</label>
+          <label class="text-xs font-medium lg:text-sm"> Date & Time End</label>
           <input
             type="datetime-local"
             v-model="dateTimeEnd"
-            class="rounded-lg border px-4 py-2 text-sm"
+            class="rounded-lg border px-4 py-2 text-sm lg:text-base"
           />
         </div>
       </div>

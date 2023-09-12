@@ -15,9 +15,12 @@ const categories = toRaw(data);
 </script>
 
 <template>
-  <Modal class="h-4/6 w-2/6 bg-white" :close-modal="() => $emit('close-modal')">
+  <Modal
+    class="h-4/6 bg-white lg:w-2/6"
+    :close-modal="() => $emit('close-modal')"
+  >
     <div class="flex items-center justify-between border-b px-6 py-4">
-      <h5>Select a Category</h5>
+      <h5 class="text-sm font-medium lg:text-base">Select a Category</h5>
       <button @click="$emit('close-modal')" class="h-5 w-5 font-medium">
         <CIcon :icon="cilX" />
       </button>
@@ -29,7 +32,7 @@ const categories = toRaw(data);
         @click="
           $emit('updateCategory', { id: category.id, name: category.name })
         "
-        class="h-10 w-auto rounded-lg border text-sm font-medium"
+        class="h-10 w-auto rounded-lg border text-xs font-medium lg:text-sm"
       >
         {{ category.name }}
       </button>
