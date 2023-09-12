@@ -4,6 +4,7 @@
   <div>
     <UserNavigation />
     <slot />
+    <div class="fixed" />
     <UserMobileNavigation />
     <Footer />
   </div>
