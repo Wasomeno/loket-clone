@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cilCompass, cilFlagAlt, cilHome, cilViewQuilt } from "@coreui/icons";
+import { cilCompass, cilFlagAlt, cilHome } from "@coreui/icons";
 import { CIcon } from "@coreui/icons-vue";
 </script>
 
