@@ -150,7 +150,7 @@ function tempAuth() {
           <Button
             variant="defaultOutline"
             @click="signIn('google', { callbackUrl: '/' })"
-            class="w-40 border-slate-300 bg-white text-sm font-medium text-black hover:bg-slate-100"
+            class="w-40 border-slate-300 bg-white text-sm font-medium text-slate-900 hover:bg-slate-100"
           >
             Google
           </Button>
