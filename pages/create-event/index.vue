@@ -10,6 +10,8 @@ import axios from "axios";
 
 type ActiveTab = "tickets" | "description";
 
+definePageMeta({ middleware: "auth" });
+
 const eventDetails = reactive<EventType>({ ticket_types: [] });
 const activeTab = ref<ActiveTab>("tickets");
 
@@ -53,7 +55,7 @@ useHead({ title: "Create Event | Loket" });
             type="string"
             v-model="eventDetails.title"
             class="bg-tranparent w-full rounded-lg py-2 text-base focus:outline-none lg:text-lg"
-            placeholder="Event Name"
+            placeholder="Set event name..."
           />
           <button
             @click="isCategoryModalOpen = true"
@@ -188,7 +190,7 @@ useHead({ title: "Create Event | Loket" });
       </div>
       <div class="flex flex-1 gap-4 lg:w-auto lg:flex-none">
         <button
-          class="flex-1 rounded-lg border bg-slate-50 px-4 py-2 text-sm lg:flex-none"
+          class="flex-1 rounded-lg border bg-slate-50 px-4 py-2 text-xs lg:flex-none lg:text-sm"
         >
           Save to Draft
         </button>
