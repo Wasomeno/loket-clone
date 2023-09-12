@@ -54,38 +54,40 @@ async function saveEventCreatorData() {
 <template>
   <div class="space-y-6">
     <div class="w-full space-y-2">
-      <h5 class="font-medium">Banner</h5>
-      <div class="h-72 w-full rounded-lg bg-gray-200" />
+      <h5 class="text-sm font-medium lg:text-base">Banner</h5>
+      <div class="h-32 w-full rounded-lg bg-gray-200 lg:h-72" />
     </div>
     <div class="space-y-2">
-      <h5 class="mb-4 font-medium">Creator Data</h5>
+      <h5 class="mb-4 text-sm font-medium lg:text-base">Creator Data</h5>
       <div class="space-y-2">
-        <div class="flex items-center gap-10">
+        <div
+          class="flex flex-wrap items-center justify-center gap-6 lg:flex-nowrap lg:justify-normal lg:gap-10"
+        >
           <div class="h-40 w-40 rounded-full bg-slate-200" />
-          <div class="space-y-4">
+          <div class="w-full space-y-4 lg:w-auto">
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-medium">Name</label>
+              <label class="text-xs font-medium lg:text-sm">Name</label>
               <input
                 type="string"
                 v-model="eventCreatorDetails.name"
-                class="w-72 rounded-lg border bg-white px-4 py-2 text-sm"
+                class="w-full rounded-lg border bg-white px-4 py-2 text-sm lg:w-72"
               />
             </div>
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-medium">Address</label>
+              <label class="text-xs font-medium lg:text-sm">Address</label>
               <input
                 type="string"
                 v-model="eventCreatorDetails.address"
-                class="w-72 rounded-lg border bg-white px-4 py-2 text-sm"
+                class="w-full rounded-lg border bg-white px-4 py-2 text-sm lg:w-72"
               />
             </div>
           </div>
-          <div class="space-y-4">
-            <div class="flex flex-col gap-2">
-              <label class="text-sm font-medium">Description</label>
+          <div class="w-full space-y-4 lg:w-auto">
+            <div class="flex w-full flex-col gap-2">
+              <label class="text-xs font-medium lg:text-sm">Description</label>
               <textarea
                 v-model="eventCreatorDetails.description"
-                class="h-32 w-96 rounded-lg border bg-white px-4 py-2 text-sm leading-5"
+                class="h-32 w-full rounded-lg border bg-white px-4 py-2 text-sm leading-5 lg:w-96"
               />
             </div>
           </div>
@@ -95,12 +97,9 @@ async function saveEventCreatorData() {
     <div
       class="flex h-20 flex-1 items-center justify-end rounded-lg border bg-white px-6 py-4"
     >
-      <button
-        @click="saveEventCreatorData"
-        class="h-10 w-40 rounded-lg bg-blue-200 py-2 text-sm font-medium"
-      >
+      <Button variant="default" @click="saveEventCreatorData">
         Save Data
-      </button>
+      </Button>
     </div>
   </div>
 </template>
