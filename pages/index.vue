@@ -4,9 +4,9 @@ import { EventType } from "~/types/event";
 
 useHead({ title: "Loket | Create & Manager your own event" });
 
-const { data } = await useFetch<EventType[]>(`${EVENT_API_MAIN}/events`);
-
-const events = toRaw(data.value);
+const { data: events } = await useFetch<EventType[]>(
+  `${EVENT_API_MAIN}/events`,
+);
 </script>
 <template>
   <NuxtLayout>
