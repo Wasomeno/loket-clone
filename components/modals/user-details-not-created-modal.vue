@@ -19,7 +19,7 @@ const emits = defineEmits<{
       <p class="text-sm">Complete your details first</p>
     </div>
     <div class="flex justify-center">
-      <NuxtLink to="/dashboard">
+      <NuxtLink to="/profile">
         <div class="flex items-center gap-2 px-4 py-2 text-sm font-medium">
           Complete your details
           <CIcon :icon="cilArrowCircleRight" class="h-5 w-5" />
