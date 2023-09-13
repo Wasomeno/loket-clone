@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DashboardCreatorProfile from "~/components/dashboard/dashboard-creator-profile.vue";
+import UserCreatorProfile from "~/components/user-creator-profile.vue";
 
 type ActiveTab = "user" | "creator";
 
@@ -29,7 +29,7 @@ const activeTab = ref<ActiveTab>("user");
             Event Creator
           </button>
         </div>
-        <DashboardCreatorProfile v-if="activeTab === 'creator'" />
+        <UserCreatorProfile v-if="activeTab === 'creator'" />
       </div>
     </main>
   </NuxtLayout>
