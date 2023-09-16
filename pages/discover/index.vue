@@ -14,17 +14,16 @@ const timeFilterDate = ref(
   timeMap.get(route.query.time as string)?.value.toDateString(),
 );
 
-const {
-  pending,
-  data: events,
-  refresh,
-} = await useFetch<EventType[]>(() => `${EVENT_API_MAIN}/events`, {
-  query: {
-    categoryId: categoryFilter,
-    time: timeFilterDate,
-    sort: activeSort,
+const { pending, data: events } = await useFetch<EventType[]>(
+  () => `${EVENT_API_MAIN}/events`,
+  {
+    query: {
+      categoryId: categoryFilter,
+      time: timeFilterDate,
+      sort: activeSort,
+    },
   },
-});
+);
 
 watchEffect(() => {
   activeSortKey.value = route.query.sort;
