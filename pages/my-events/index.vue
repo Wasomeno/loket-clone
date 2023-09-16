@@ -5,6 +5,7 @@ import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventType, User } from "~/types/event";
 
 useHead({ title: "My Events | Loket" });
+definePageMeta({ middleware: "auth" });
 
 const session = useAuth();
 

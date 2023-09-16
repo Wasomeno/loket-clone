@@ -5,6 +5,8 @@ type ActiveTab = "user" | "creator";
 
 useHead({ title: "Profile | Loket" });
 
+definePageMeta({ middleware: "auth" });
+
 const activeTab = ref<ActiveTab>("user");
 </script>
 

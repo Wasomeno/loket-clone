@@ -1,5 +1,6 @@
 <script setup>
 useHead({ title: "My Tickets | Loket" });
+definePageMeta({ middleware: "auth" });
 </script>
 
 <template>
