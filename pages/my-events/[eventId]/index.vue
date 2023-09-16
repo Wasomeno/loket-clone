@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {
   cilCalendar,
-  cilChevronCircleLeftAlt,
-  cilChevronLeft,
   cilClock,
   cilLocationPin,
   cilMusicNote,
@@ -10,8 +8,11 @@ import {
   cilTrash,
 } from "@coreui/icons";
 import { CIcon } from "@coreui/icons-vue";
+import ChevronLeft from "~/components/icons/chevron-left.vue";
 import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventType } from "~/types/event";
+
+definePageMeta({ middleware: "auth" });
 
 const route = useRoute();
 
@@ -39,23 +40,7 @@ useHead({
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <button @click="$router.back()" class="lg:hidden">
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                stroke-width="0"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+              <ChevronLeft />
             </button>
             <h1 class="text-base font-medium lg:text-xl">
               {{ eventDetailsCache?.data.value.title }}
