@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { cn } from "~/lib/utils";
 import { cva } from "class-variance-authority";
+import { ClassValue } from "clsx";
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = withDefaults(
   defineProps<{
@@ -10,6 +15,8 @@ const props = withDefaults(
     variant: "default",
   },
 );
+
+const attributes = useAttrs();
 
 const buttonVariants = computed(() => {
   return cva(
@@ -28,7 +35,7 @@ const buttonVariants = computed(() => {
 </script>
 
 <template>
-  <button :class="cn(buttonVariants)">
+  <button :class="cn(buttonVariants, attributes.class as ClassValue[])">
     <slot />
   </button>
 </template>
