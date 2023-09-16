@@ -30,7 +30,7 @@ const searchResults = await useFetch<SearchResults>(
     class="flex h-screen flex-1 flex-col rounded-none bg-white"
   >
     <div class="flex items-center justify-between border-b px-4 py-2">
-      <span class="text-sm font-medium">Search</span>
+      <span class="text-base font-medium">Search</span>
       <button @click="$emit('close-modal')">
         <CIcon :icon="cilX" class="h-4 w-4" />
       </button>
@@ -45,7 +45,7 @@ const searchResults = await useFetch<SearchResults>(
         <input
           v-model="searchQuery"
           type="string"
-          class="w-full py-2 text-xs focus:outline-0"
+          class="w-full py-2 text-sm focus:outline-0"
           placeholder="Search for events"
         />
       </div>
