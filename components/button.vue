@@ -35,7 +35,10 @@ const buttonVariants = computed(() => {
 </script>
 
 <template>
-  <button :class="cn(buttonVariants, attributes.class as ClassValue[])">
+  <button
+    v-bind="$attrs"
+    :class="cn(buttonVariants, attributes.class as ClassValue[])"
+  >
     <slot />
   </button>
 </template>
