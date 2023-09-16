@@ -12,6 +12,8 @@ type ActiveTab = "tickets" | "description";
 
 definePageMeta({ middleware: "auth" });
 
+useHead({ title: "Create Event | Loket" });
+
 const eventDetails = reactive<EventType>({ ticket_types: [] });
 const activeTab = ref<ActiveTab>("tickets");
 
@@ -21,22 +23,20 @@ const { data: userDetails } = useFetch<User>(
   `${EVENT_API_MAIN}/users/${session.value?.user?.email}`,
 );
 
-const isUserDetailsInvalid = userDetails === null;
-
 const isCategoryModalOpen = ref(false);
 const isDateTimeModalOpen = ref(false);
 const isTicketModalOpen = ref(false);
 
+const isUserDetailsInvalid = userDetails === null;
+
 async function createEvent() {
-  const { data } = await axios.post(`${EVENT_API_MAIN}/events`, {
+  const response = await axios.post(`${EVENT_API_MAIN}/events`, {
     ...eventDetails,
     creator_id: userDetails.value?.event_creator_id,
     category_id: eventDetails.category?.id,
     ticketTypes: eventDetails.ticket_types,
   });
 }
-
-useHead({ title: "Create Event | Loket" });
 </script>
 
 <template>
@@ -239,8 +239,6 @@ useHead({ title: "Create Event | Loket" });
           ])
       "
     />
-    <UserDetailsNotCreated
-      v-if="isUserDetailsInvalid && !$route.path.includes('/dashboard')"
-    />
+    <UserDetailsNotCreated v-if="isUserDetailsInvalid" />
   </main>
 </template>
