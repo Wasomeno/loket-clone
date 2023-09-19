@@ -42,7 +42,7 @@ const session = useAuth();
       </div>
       <div
         v-if="isMenuOpen"
-        class="absolute right-0 top-12 z-20 flex h-96 w-80 flex-1 flex-col rounded-xl bg-white px-6 py-2 shadow-md"
+        class="absolute right-0 top-12 z-30 flex h-96 w-80 flex-1 flex-col rounded-xl bg-white px-6 py-2 shadow-md"
       >
         <div class="flex items-center gap-4 py-4">
           <div
@@ -84,11 +84,18 @@ const session = useAuth();
           >
             <span class="text-sm">My Events</span>
           </NuxtLink>
+
           <NuxtLink
             to="/create-event"
             class="rounded-lg px-4 py-2 transition duration-200 hover:bg-slate-100"
           >
             <span class="text-sm">Create Event</span>
+          </NuxtLink>
+          <NuxtLink
+            to="/profile"
+            class="rounded-lg px-4 py-2 transition duration-200 hover:bg-slate-100"
+          >
+            <span class="text-sm">Profile</span>
           </NuxtLink>
         </div>
         <div v-else="activeTab === 'user'" class="flex flex-1 flex-col gap-2">
