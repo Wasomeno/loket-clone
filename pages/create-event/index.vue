@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { cilCalendar, cilClock, cilImagePlus, cilPlus } from "@coreui/icons";
+import {
+  cilCalendar,
+  cilClock,
+  cilPen,
+  cilPlus,
+  cilTrash,
+} from "@coreui/icons";
 import { CIcon } from "@coreui/icons-vue";
+import { createClient } from "@supabase/supabase-js";
 import CreateEventTicketsModal from "~/components/modals/create-event-tickets-modal.vue";
+import EditEventTicketsModal from "~/components/modals/edit-event-tickets-modal.vue";
 import SelectEventCategoryModal from "~/components/modals/select-event-category-modal.vue";
 import SelectEventDateTimeModal from "~/components/modals/select-event-date-time-modal.vue";
+import UserDetailsNotCreatedModal from "~/components/modals/user-details-not-created-modal.vue";
 import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventType, User } from "~/types/event";
 import axios from "axios";
@@ -25,16 +34,36 @@ const { data: userDetails } = useFetch<User>(
 
 const isCategoryModalOpen = ref(false);
 const isDateTimeModalOpen = ref(false);
-const isTicketModalOpen = ref(false);
+const isCreateTicketModalOpen = ref(false);
+const isEditTicketModalOpen = ref(false);
+
+const selectedTicketIndex = ref();
+
+const imageFile = ref<{ path: string; file: File }>();
 
 const isUserDetailsInvalid = userDetails === null;
+const runtimeConfig = useRuntimeConfig();
+
+const supabase = createClient(
+  runtimeConfig.public.PROJECT_URL,
+  runtimeConfig.public.PROJECT_API_KEY,
+);
 
 async function createEvent() {
+  const imageUpload = await supabase.storage
+    .from("event-images")
+    .upload(`/${imageFile.value?.file.name}`, imageFile.value?.file as File);
   const response = await axios.post(`${EVENT_API_MAIN}/events`, {
     ...eventDetails,
+    min_ticket_price: eventDetails.ticket_types.sort((a, b) => {
+      return a.price - b.price;
+    })[0].price,
+    dateTimeStart: eventDetails.date_time_start,
+    dateTimeEnd: eventDetails.date_time_end,
     creator_id: userDetails.value?.event_creator_id,
     category_id: eventDetails.category?.id,
     ticketTypes: eventDetails.ticket_types,
+    imageURL: `https://npqvursxoqbyzwgksvio.supabase.co/storage/v1/object/public/event-images/${imageUpload.data?.path}`,
   });
 }
 </script>
@@ -48,7 +77,16 @@ async function createEvent() {
         <div
           class="flex h-72 w-full items-center justify-center rounded-lg bg-blue-50"
         >
-          <CIcon :icon="cilImagePlus" class="h-6 w-6 opacity-40" />
+          <input
+            type="file"
+            @change="
+              (event) =>
+                (imageFile = {
+                  path: event.target.value,
+                  file: event.target.files[0],
+                })
+            "
+          />
         </div>
         <div class="flex flex-col gap-2 px-2 py-4">
           <input
@@ -149,29 +187,54 @@ async function createEvent() {
               class="text-xs font-medium opacity-50 lg:text-sm"
               >No created tickets</span
             >
-            <div
-              v-else
-              v-for="ticket in eventDetails.ticket_types"
-              :key="ticket.id"
-            >
+            <div v-else>
               <div
-                class="w-96 rounded-lg border bg-slate-50 px-4 py-2 shadow-sm"
+                v-for="(ticket, index) in eventDetails.ticket_types"
+                :key="ticket.id"
+                class="flex w-96 flex-1 rounded-lg border bg-slate-50 px-4 py-3 shadow-sm"
               >
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-1 flex-col gap-2">
                   <h5 class="font-medium">{{ ticket.name }}</h5>
                   <p class="text-sm">{{ ticket.description }}</p>
                   <span class="text-sm">{{
-                    `${(ticket.sale_start as Date).toDateString()} - ${(
-                      ticket.sale_end as Date
+                    `${new Date(
+                      ticket.sale_start as string,
+                    ).toDateString()} - ${new Date(
+                      ticket.sale_end as string,
                     ).toDateString()}`
                   }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button
+                    @click="
+                      () => {
+                        selectedTicketIndex = index;
+                        isEditTicketModalOpen = true;
+                      }
+                    "
+                    class="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500 text-white"
+                  >
+                    <CIcon :icon="cilPen" class="h-4 w-4" />
+                  </button>
+                  <button
+                    @click="
+                      () =>
+                        (eventDetails.ticket_types =
+                          eventDetails.ticket_types.filter(
+                            (ticket, ticketIndex) => ticketIndex !== index,
+                          ))
+                    "
+                    class="flex h-7 w-7 items-center justify-center rounded-lg bg-red-500 text-white"
+                  >
+                    <CIcon :icon="cilTrash" class="h-4 w-4" />
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           <Button
             variant="defaultOutline"
-            @click="isTicketModalOpen = true"
+            @click="isCreateTicketModalOpen = true"
             class="mt-4 space-x-2 border-blue-200 bg-blue-500 text-white hover:bg-blue-400"
           >
             <CIcon :icon="cilPlus" class="h-4 w-4" />
@@ -201,12 +264,13 @@ async function createEvent() {
         <Button
           variant="defaultOutline"
           @click="createEvent"
-          class="flex-1 border-blue-200 bg-blue-300 text-sm lg:flex-none"
+          class="flex-1 text-sm lg:flex-none"
         >
           Create
         </Button>
       </div>
     </div>
+    <UserDetailsNotCreatedModal v-if="isUserDetailsInvalid" />
     <SelectEventCategoryModal
       v-if="isCategoryModalOpen"
       @close-modal="isCategoryModalOpen = false"
@@ -229,8 +293,8 @@ async function createEvent() {
       "
     />
     <CreateEventTicketsModal
-      v-if="isTicketModalOpen"
-      @close-modal="isTicketModalOpen = false"
+      v-if="isCreateTicketModalOpen"
+      @close-modal="isCreateTicketModalOpen = false"
       @update-tickets="
         (newTicket) =>
           (eventDetails.ticket_types = [
@@ -239,6 +303,14 @@ async function createEvent() {
           ])
       "
     />
-    <UserDetailsNotCreated v-if="isUserDetailsInvalid" />
+    <EditEventTicketsModal
+      v-if="isEditTicketModalOpen"
+      :ticket-details="eventDetails.ticket_types[selectedTicketIndex]"
+      @close-modal="isEditTicketModalOpen = false"
+      @update-tickets="
+        (updatedTicket) =>
+          (eventDetails.ticket_types[selectedTicketIndex] = updatedTicket)
+      "
+    />
   </main>
 </template>
