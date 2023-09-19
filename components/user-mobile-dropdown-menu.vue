@@ -4,11 +4,6 @@ import { CIcon } from "@coreui/icons-vue";
 
 const isMenuOpen = ref(false);
 const session = useAuth();
-
-const emits = defineEmits<{
-  "show-user-menu": [];
-  "hide-user-menu": [];
-}>();
 </script>
 
 <template>
@@ -67,6 +62,14 @@ const emits = defineEmits<{
             class="rounded-lg px-4 py-2 transition duration-200 hover:bg-slate-100"
           >
             <span class="text-sm">My Tickets</span>
+          </NuxtLink>
+        </div>
+        <div class="flex flex-col border-t py-2">
+          <NuxtLink
+            to="/profile"
+            class="rounded-lg px-4 py-2 transition duration-200 hover:bg-slate-100"
+          >
+            <span class="text-sm">Profile</span>
           </NuxtLink>
         </div>
         <div class="border-t py-2">
