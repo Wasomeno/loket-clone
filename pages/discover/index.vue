@@ -70,7 +70,7 @@ watchEffect(() => {
             <div
               class="overflow-hidden rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
             >
-              <div class="h-24 bg-slate-300 lg:h-36">
+              <div class="h-32 bg-slate-300 lg:h-36">
                 <NuxtImg :src="event.banner_image" class="h-full w-full" />
               </div>
               <div class="px-4">
