@@ -102,7 +102,7 @@ async function updateTicket() {
           />
         </div>
         <div class="flex flex-1 flex-wrap items-center gap-4">
-          <div class="flex flex-1 flex-col gap-2">
+          <div class="flex w-full flex-1 flex-col gap-2">
             <label class="text-xs lg:text-sm">Sale Start Date & Time</label>
             <input
               type="datetime-local"
@@ -110,7 +110,7 @@ async function updateTicket() {
               class="rounded-lg border bg-slate-50 px-4 py-2 text-sm focus:outline-none lg:text-base"
             />
           </div>
-          <div class="flex flex-1 flex-col gap-2">
+          <div class="flex w-full flex-1 flex-col gap-2">
             <label class="text-xs lg:text-sm">Sale End Date & Time</label>
             <input
               type="datetime-local"
