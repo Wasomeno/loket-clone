@@ -32,8 +32,8 @@ export type EventTicketDetails = {
   price?: number;
   description?: string;
   event_id?: number;
-  sale_end?: string | Date;
-  sale_start?: string | Date;
+  sale_end?: string;
+  sale_start?: string;
   event?: EventType;
 };
 
