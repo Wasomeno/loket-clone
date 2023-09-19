@@ -24,6 +24,8 @@
   "dependencies": {
     "@coreui/icons": "^3.0.1",
     "@coreui/icons-vue": "^2.0.0",
+    "@nuxt/image": "^1.0.0-rc.2",
+    "@supabase/supabase-js": "^2.33.2",
     "axios": "^1.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
