@@ -68,7 +68,7 @@ async function updateTicket() {
             updateTicket();
           }
         "
-        class="flex flex-1 flex-col px-6 py-4"
+        class="flex flex-1 flex-col gap-4 px-6 py-4"
       >
         <div class="flex flex-col gap-2">
           <label class="text-xs lg:text-sm">Name</label>
@@ -101,7 +101,7 @@ async function updateTicket() {
             class="h-40 rounded-lg border bg-slate-50 px-4 py-2 text-sm focus:outline-none lg:text-base"
           />
         </div>
-        <div class="flex flex-1 items-center gap-4">
+        <div class="flex flex-1 flex-wrap items-center gap-4">
           <div class="flex flex-1 flex-col gap-2">
             <label class="text-xs lg:text-sm">Sale Start Date & Time</label>
             <input
