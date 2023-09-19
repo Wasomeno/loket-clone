@@ -12,7 +12,7 @@ const searchQuery = ref("");
 
 <template>
   <header
-    class="sticky top-0 z-10 flex items-center justify-between bg-blue-950 px-4 py-3 shadow-md lg:px-6"
+    class="sticky top-0 z-20 flex items-center justify-between bg-blue-950 px-4 py-3 shadow-md lg:px-6"
   >
     <div class="flex w-2/6 items-center gap-4 lg:gap-10">
       <NuxtLink to="/">
@@ -67,6 +67,6 @@ const searchQuery = ref("");
   <div
     v-if="isScreenOpen"
     @click="isScreenOpen = false"
-    class="fixed left-0 top-0 h-screen w-screen bg-neutral-900 opacity-75 transition duration-200"
+    class="fixed left-0 top-0 z-10 h-screen w-screen bg-neutral-900 opacity-75 transition duration-200"
   />
 </template>
