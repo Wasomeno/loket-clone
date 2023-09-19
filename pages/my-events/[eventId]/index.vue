@@ -151,7 +151,8 @@ useHead({
             <h2 class="mb-2 font-medium">Ticket Types</h2>
             <div class="flex flex-1 flex-col gap-4">
               <div
-                v-for="(ticket, index) in eventDetails?.ticket_types"
+                v-for="(ticket, index) in eventDetailsCache.data?.value
+                  .ticket_types"
                 :key="ticket.id"
                 class="flex gap-4 rounded-lg border bg-slate-50 px-4 py-3 shadow-sm lg:w-96"
               >
