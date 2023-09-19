@@ -4,21 +4,32 @@ import {
   cilClock,
   cilLocationPin,
   cilMusicNote,
+  cilPen,
   cilPencil,
   cilTrash,
 } from "@coreui/icons";
 import { CIcon } from "@coreui/icons-vue";
 import ChevronLeft from "~/components/icons/chevron-left.vue";
+import DeleteEventModal from "~/components/modals/delete-event-modal.vue";
+import DeleteEventTicketTypeModal from "~/components/modals/delete-event-ticket-type-modal.vue";
+import EditEventModal from "~/components/modals/edit-event-modal.vue";
+import EditEventTicketModal from "~/components/modals/edit-event-ticket-modal.vue";
 import { EVENT_API_MAIN } from "~/lib/utils";
-import { EventType } from "~/types/event";
+import { EventTicketDetails, EventType } from "~/types/event";
 
 definePageMeta({ middleware: "auth" });
 
 const route = useRoute();
 
+const isEditDetailsModalOpen = ref(false);
+const isEditTicketModalOpen = ref(false);
+const isDeleteTicketModalOpen = ref(false);
+const isDeleteEventModalOpen = ref(false);
+
+const selectedTicket = ref();
 const eventDetailsCache = useNuxtData(`eventDetails/${route.params.eventId}`);
 
-const { data: eventDetails } = await useFetch<EventType>(
+const { data: eventDetails, refresh } = await useFetch<EventType>(
   `${EVENT_API_MAIN}/events/${route.params.eventId}`,
   {
     key: `eventDetails/${route.params.eventId}`,
@@ -46,26 +57,35 @@ useHead({
               {{ eventDetailsCache?.data.value.title }}
             </h1>
           </div>
-
-          <div class="flex items-center gap-2">
-            <Button class="gap-3 text-sm">
-              <CIcon :icon="cilPencil" class="h-3 w-3 lg:h-4 lg:w-4" />
-              <span class="hidden lg:inline-block">Edit</span>
-            </Button>
-            <Button class="gap-3 bg-red-800 text-sm hover:bg-red-700">
-              <CIcon :icon="cilTrash" class="h-3 w-3 lg:h-4 lg:w-4" />
-              <span class="hidden lg:inline-block">Remove</span>
-            </Button>
-          </div>
+          <Button
+            @click="isDeleteEventModalOpen = true"
+            class="flex h-8 w-8 items-center justify-center gap-3 bg-red-800 p-0 text-sm hover:bg-red-700 lg:h-auto lg:w-auto lg:px-4 lg:py-2"
+          >
+            <CIcon :icon="cilTrash" class="h-3 w-3 lg:h-4 lg:w-4" />
+            <span class="hidden lg:inline-block">Remove</span>
+          </Button>
         </div>
-        <div class="flex-1 space-y-6 rounded-lg border bg-white p-4">
-          <div>
-            <h2 class="mb-2 font-medium">Event Details</h2>
+        <div
+          class="flex flex-1 flex-wrap gap-10 rounded-lg border bg-white p-4 lg:gap-20"
+        >
+          <div class="w-full lg:w-auto">
+            <div class="mb-2 flex items-center justify-between">
+              <h2 class="font-medium">Event Details</h2>
+              <Button
+                @click="isEditDetailsModalOpen = true"
+                class="flex h-8 w-8 items-center justify-center gap-3 p-0 text-sm lg:h-auto lg:w-auto lg:px-4 lg:py-2"
+              >
+                <CIcon :icon="cilPencil" class="h-3 w-3 lg:h-4 lg:w-4" />
+                <span class="hidden lg:inline-block">Edit</span>
+              </Button>
+            </div>
             <div class="flex flex-1 flex-wrap gap-10">
-              <div class="overflow-hidden rounded-lg border shadow-sm lg:w-96">
-                <img
+              <div
+                class="w-full overflow-hidden rounded-lg border shadow-sm lg:w-96"
+              >
+                <NuxtImg
                   :src="eventDetailsCache?.data.value.banner_image"
-                  class="h-72 object-top"
+                  class="w-full object-top lg:h-72 lg:w-96"
                   alt="event-banner-img"
                 />
               </div>
@@ -127,31 +147,78 @@ useHead({
               </div>
             </div>
           </div>
-          <div>
-            <h2 class="mb-2 font-medium">Ticket Sale Details</h2>
-            <div class="grid flex-1 grid-cols-2 gap-4 lg:grid-cols-3">
+          <div class="w-full lg:w-auto">
+            <h2 class="mb-2 font-medium">Ticket Types</h2>
+            <div class="flex flex-1 flex-col gap-4">
               <div
-                class="col-span-1 flex h-20 flex-col gap-2 rounded-lg border bg-white px-6 py-4 shadow-sm lg:h-28"
+                v-for="(ticket, index) in eventDetails?.ticket_types"
+                :key="ticket.id"
+                class="flex gap-4 rounded-lg border bg-slate-50 px-4 py-3 shadow-sm lg:w-96"
               >
-                <span class="text-sm font-medium opacity-50 lg:text-base"
-                  >Tickets Sold</span
-                >
-                <span class="text-end text-lg font-medium lg:text-2xl">0</span>
-              </div>
-              <div
-                class="col-span-1 flex h-20 flex-col gap-2 rounded-lg border bg-white px-6 py-4 shadow-sm lg:h-28"
-              >
-                <span class="text-sm font-medium opacity-50 lg:text-base"
-                  >Sales</span
-                >
-                <span class="text-end text-lg font-medium lg:text-2xl"
-                  >Rp 0</span
-                >
+                <div class="flex flex-1 flex-col gap-2">
+                  <h5 class="font-medium">{{ ticket.name }}</h5>
+                  <p class="text-sm">{{ ticket.description }}</p>
+                  <span class="text-sm">{{
+                    `${new Date(
+                      ticket.sale_start as string,
+                    ).toDateString()} - ${new Date(
+                      ticket.sale_end as string,
+                    ).toDateString()}`
+                  }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <Button
+                    @click="
+                      () => {
+                        selectedTicket = index;
+                        isEditTicketModalOpen = true;
+                      }
+                    "
+                    class="flex h-8 w-8 items-center justify-center gap-3 p-0 text-sm"
+                  >
+                    <CIcon :icon="cilPen" class="h-3.5 w-3.5" />
+                  </Button>
+                  <Button
+                    @click="
+                      () => {
+                        selectedTicket = index;
+                        isDeleteTicketModalOpen = true;
+                      }
+                    "
+                    class="flex h-8 w-8 items-center justify-center gap-3 bg-red-800 p-0 text-sm hover:bg-red-700"
+                  >
+                    <CIcon :icon="cilTrash" class="h-3.5 w-3.5" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <EditEventModal
+        v-if="isEditDetailsModalOpen"
+        :event-details="eventDetails as EventType"
+        @close-modal="isEditDetailsModalOpen = false"
+        @refresh-event-data="() => refresh()"
+      />
+      <EditEventTicketModal
+        v-if="isEditTicketModalOpen"
+        :ticket-details="
+          eventDetails?.ticket_types[selectedTicket] as EventTicketDetails
+        "
+        @close-modal="isEditTicketModalOpen = false"
+        @refresh-event-data="() => refresh()"
+      />
+      <DeleteEventTicketTypeModal
+        v-if="isDeleteTicketModalOpen"
+        :ticket-id="eventDetails?.ticket_types[selectedTicket].id as number"
+        @close-modal="isDeleteTicketModalOpen = false"
+      />
+      <DeleteEventModal
+        v-if="isDeleteEventModalOpen"
+        :event-id="eventDetails?.id as number"
+        @close-modal="isDeleteEventModalOpen = false"
+      />
     </main>
   </NuxtLayout>
 </template>
