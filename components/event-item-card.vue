@@ -11,7 +11,7 @@ const dateTimeStart = new Date(props.eventDetails?.date_time_start as string);
       class="w-64 overflow-hidden rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
     >
       <NuxtImg
-        class="h-24 w-full bg-slate-300 lg:h-36"
+        class="h-32 w-full bg-slate-300 lg:h-36"
         :src="eventDetails.banner_image"
         alt="event-image"
       />
