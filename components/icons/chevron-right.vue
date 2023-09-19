@@ -2,9 +2,7 @@
 import { cn } from "~/lib/utils";
 import { ClassValue } from "clsx";
 
-const props = defineProps<{
-  class?: ClassValue[];
-}>();
+const props = defineProps();
 </script>
 <template>
   <svg
@@ -16,7 +14,7 @@ const props = defineProps<{
     height="1em"
     width="1em"
     xmlns="http://www.w3.org/2000/svg"
-    :class="cn('h-4 w-4', props.class)"
+    :class="cn('h-5 w-5')"
   >
     <path
       fill-rule="evenodd"
