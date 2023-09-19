@@ -30,8 +30,10 @@ const activeTab = ref<ActiveTab>("description");
         class="flex w-11/12 flex-col items-center gap-4 lg:w-5/6 lg:flex-row lg:gap-6"
       >
         <div
-          class="h-40 w-full rounded-xl bg-blue-300 shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:h-80"
-        />
+          class="h-40 w-full overflow-hidden rounded-xl bg-blue-300 shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:h-80"
+        >
+          <NuxtImg :src="eventDetails?.banner_image" class="h-full w-full" />
+        </div>
         <div
           class="flex w-full flex-col justify-between rounded-xl shadow-none lg:h-80 lg:w-96 lg:px-6 lg:pt-6 lg:shadow-md"
         >
@@ -65,7 +67,11 @@ const activeTab = ref<ActiveTab>("description");
             <div
               class="flex items-center gap-4 border-t border-dashed border-slate-300 py-4"
             >
-              <div class="h-9 w-9 rounded-full bg-blue-300" />
+              <div
+                class="h-10 w-10 overflow-hidden rounded-full border-2 bg-blue-300"
+              >
+                <NuxtImg :src="eventDetails?.creator?.image_logo" />
+              </div>
               <span class="text-sm font-medium">{{
                 eventDetailsCache?.data.value.creator.name
               }}</span>

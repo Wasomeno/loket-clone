@@ -70,10 +70,14 @@ watchEffect(() => {
             <div
               class="overflow-hidden rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
             >
-              <div class="h-24 bg-slate-300 lg:h-36" />
+              <div class="h-24 bg-slate-300 lg:h-36">
+                <NuxtImg :src="event.banner_image" class="h-full w-full" />
+              </div>
               <div class="px-4">
                 <div class="flex flex-col gap-2 py-4 lg:py-6">
-                  <span class="text-sm lg:text-base">{{ event.title }}</span>
+                  <span class="line-clamp-1 text-sm lg:text-base">{{
+                    event.title
+                  }}</span>
                   <span class="text-xs opacity-50 lg:text-base">{{
                     new Date(event.date_time_start as string).toDateString()
                   }}</span>
@@ -83,7 +87,11 @@ watchEffect(() => {
                 </div>
                 <div class="border-t border-t-slate-300 py-3 lg:py-4">
                   <div class="flex items-center gap-4">
-                    <div class="h-7 w-7 rounded-full bg-blue-300" />
+                    <div
+                      class="h-10 w-10 overflow-hidden rounded-full border-2 bg-blue-300"
+                    >
+                      <NuxtImg :src="event.creator?.image_logo" />
+                    </div>
                     <span class="text-xs font-medium opacity-50">{{
                       event?.creator?.name
                     }}</span>
