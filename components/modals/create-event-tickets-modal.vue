@@ -6,15 +6,6 @@ import { EventTicketDetails } from "~/types/event";
 const activeTab = ref<"ticket" | "dateTime">("ticket");
 const ticketDetails = reactive<EventTicketDetails>({});
 
-const dateTime = reactive<{ start?: string; end?: string }>({});
-
-watchEffect(() => {
-  const dateTimeStart = new Date(toRaw(dateTime.start as string));
-  const dateTimeEnd = new Date(toRaw(dateTime.end as string));
-  ticketDetails.sale_start = dateTimeStart;
-  ticketDetails.sale_end = dateTimeEnd;
-});
-
 const emits = defineEmits<{
   "close-modal": [];
   "update-tickets": [ticketDetails: EventTicketDetails];
@@ -52,6 +43,8 @@ const emits = defineEmits<{
             event.preventDefault();
             $emit('update-tickets', {
               ...ticketDetails,
+              sale_start: new Date(ticketDetails.sale_start as string),
+              sale_end: new Date(ticketDetails.sale_end as string),
             });
             $emit('close-modal');
           }
@@ -87,7 +80,7 @@ const emits = defineEmits<{
             <label class="text-xs lg:text-sm">Description</label>
             <textarea
               v-model="ticketDetails.description"
-              class="h-40 rounded-lg border bg-slate-50 px-4 py-2 text-sm text-sm leading-6 focus:outline-none lg:text-base"
+              class="h-40 rounded-lg border bg-slate-50 px-4 py-2 text-sm leading-6 focus:outline-none lg:text-base"
             />
           </div>
         </div>
@@ -96,7 +89,7 @@ const emits = defineEmits<{
             <label class="text-xs lg:text-sm"> Date & Time Start</label>
             <input
               type="datetime-local"
-              v-model="dateTime.start"
+              v-model="ticketDetails.sale_start"
               class="rounded-lg border px-4 py-2 text-sm"
             />
           </div>
@@ -104,14 +97,14 @@ const emits = defineEmits<{
             <label class="text-xs lg:text-sm"> Date & Time End</label>
             <input
               type="datetime-local"
-              v-model="dateTime.end"
+              v-model="ticketDetails.sale_end"
               class="rounded-lg border px-4 py-2 text-sm"
             />
           </div>
         </div>
         <Button
           variant="defaultOutline"
-          :disabled="!ticketDetails || !dateTime.end || !dateTime.start"
+          :disabled="!ticketDetails"
           class="mt-4 w-full bg-blue-500 text-sm font-medium text-white hover:bg-blue-400"
         >
           Create
