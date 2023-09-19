@@ -134,13 +134,12 @@ function tempAuth() {
           >
             Facebook
           </Button>
-          <Button
-            variant="defaultOutline"
+          <button
             @click="signIn('google', { callbackUrl: '/' })"
-            class="w-40 border-slate-300 bg-white text-xs font-medium text-black hover:bg-slate-100"
+            class="w-40 rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-black hover:bg-slate-100"
           >
             Google
-          </Button>
+          </button>
         </div>
       </div>
     </div>
