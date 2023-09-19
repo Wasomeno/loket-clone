@@ -65,7 +65,7 @@ const { data: events } = useFetch<EventType[]>(
             </div>
           </NuxtLink>
         </div>
-        <div v-else="events" class="flex items-center gap-4">
+        <div v-else="events" class="flex flex-wrap items-center gap-4">
           <div
             v-for="n in 3"
             class="w-full overflow-hidden rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)] lg:w-72"
