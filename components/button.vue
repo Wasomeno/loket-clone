@@ -29,7 +29,7 @@ const buttonVariants = computed(() => {
 </script>
 
 <template>
-  <button :class="cn(buttonVariants, $props.class as ClassValue[])">
+  <button :class="cn(buttonVariants, $attrs.class as ClassValue[])">
     <slot />
   </button>
 </template>
