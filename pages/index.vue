@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HomeBannerSlider from "~/components/home-banner-slider.vue";
 import { EVENT_API_MAIN } from "~/lib/utils";
 import { EventType } from "~/types/event";
 
@@ -13,19 +14,19 @@ const { data: events } = await useFetch<EventType[]>(
     <main
       class="flex w-full flex-col items-center gap-4 overflow-hidden py-6 lg:gap-10"
     >
-      <div class="h-36 w-11/12 rounded-lg bg-slate-500 lg:h-72 lg:w-5/6" />
+      <HomeBannerSlider />
       <div class="flex w-full flex-col gap-4 lg:w-5/6 lg:gap-4">
-        <h2 class="px-4 text-sm font-semibold lg:text-xl">
+        <h2 class="px-4 text-sm font-semibold lg:px-0 lg:text-xl">
           Recommended Events
         </h2>
-        <div class="flex items-center overflow-x-scroll lg:overflow-x-visible">
-          <div class="grid min-w-max grid-cols-4 gap-4 px-4 pb-4">
-            <EventItemCard
-              v-for="event in events"
-              :key="event.id"
-              :event-details="event"
-            />
-          </div>
+        <div
+          class="flex items-center gap-4 overflow-x-scroll px-4 pb-4 lg:overflow-x-visible lg:px-0 lg:pb-0"
+        >
+          <EventItemCard
+            v-for="event in events"
+            :key="event.id"
+            :event-details="event"
+          />
         </div>
       </div>
       <div class="flex w-full justify-center bg-blue-950 py-4 lg:py-6">
@@ -40,16 +41,18 @@ const { data: events } = await useFetch<EventType[]>(
           </div>
         </div>
       </div>
-      <div class="flex w-full flex-col gap-4 lg:w-5/6 lg:gap-4">
-        <h2 class="px-4 text-sm font-semibold lg:text-xl">Music Events</h2>
-        <div class="flex items-center overflow-x-scroll lg:overflow-x-visible">
-          <div class="grid min-w-max grid-cols-4 gap-4 px-4 pb-4">
-            <EventItemCard
-              v-for="event in events"
-              :key="event.id"
-              :event-details="event"
-            />
-          </div>
+      <div class="flex w-full flex-col gap-4 lg:w-5/6">
+        <h2 class="px-4 text-sm font-semibold lg:px-0 lg:text-xl">
+          Music Events
+        </h2>
+        <div
+          class="flex items-center gap-4 overflow-x-scroll px-4 pb-4 lg:overflow-x-visible lg:px-0 lg:pb-0"
+        >
+          <EventItemCard
+            v-for="event in events"
+            :key="event.id"
+            :event-details="event"
+          />
         </div>
       </div>
     </main>
