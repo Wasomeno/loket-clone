@@ -9,6 +9,15 @@ const isFilterOpen = ref(false);
 const router = useRouter();
 const route = useRoute();
 
+const timeFilter = Array.from(timeMap, (item) => ({
+  key: item[0],
+  ...item[1],
+}));
+
+const { data: categories } = await useFetch<EventCategory[]>(
+  `${EVENT_API_MAIN}/categories`,
+);
+
 function setFilter(key: string, value: string) {
   const filterParams = new URLSearchParams(
     route.query as Record<string, string>,
@@ -24,15 +33,6 @@ function removeFilter(key: string) {
   filterParams.delete(key);
   router.push(`${route.path}?${filterParams.toString()}`);
 }
-
-const timeFilter = Array.from(timeMap, (item) => ({
-  key: item[0],
-  ...item[1],
-}));
-
-const { data: categories } = await useFetch<EventCategory[]>(
-  `${EVENT_API_MAIN}/categories`,
-);
 </script>
 
 <template>
